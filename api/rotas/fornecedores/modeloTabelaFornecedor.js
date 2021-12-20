@@ -36,4 +36,4 @@ const opcoes = {
 
 }
 
-module.exports = instancia.define('fornecedor',colunas, opcoes)
+module.exports = instancia.define('fornecedores', colunas,  opcoes)
