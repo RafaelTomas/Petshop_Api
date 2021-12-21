@@ -1,6 +1,7 @@
 const roteador = require('express').Router()
 const TabelaFornecedor = require('./TabelaFornecedor')
 const Fornecedor = require('./Fornecedor')
+const NaoEncontrado = require('../../erros/NaoEncontrado')
 
 
 roteador.get('/', async (req,res) => 
@@ -24,6 +25,7 @@ roteador.post('/', async (req, res) => {
             JSON.stringify(fornecedor)
         )
     }catch (erro) {
+        res.status(400)
         res.send(
             JSON.stringify({
             mensagem: erro.mensage
@@ -43,6 +45,7 @@ roteador.get('/:idFornecedor', async (req,res) => {
             JSON.stringify(fornecedor)
         )
     } catch (erro) {
+        res.status(404)
         res.send(
             JSON.stringify({
                 mensagem: erro.message
@@ -51,7 +54,7 @@ roteador.get('/:idFornecedor', async (req,res) => {
     }
 })
 
-roteador.put('/:idFornecedor', async (req, res) => {
+roteador.put('/:idFornecedor', async (req, res, next) => {
  try{
      const id = req.params.idFornecedor
      const dadosRecebidos = req.body
@@ -61,11 +64,7 @@ roteador.put('/:idFornecedor', async (req, res) => {
      res.status(204)
      res.end()
  } catch (erro) {
-     res.send(
-         JSON.stringify({
-             mensagem: erro.message
-         })
-     )
+     next(erro)
  }
 })
 
@@ -79,6 +78,7 @@ roteador.delete('/:idFornecedor', async (req, res) => {
         res.status(204)
         res.end()
     } catch (erro){
+        res.status(404)
         res.send(
             JSON.stringify({
                 mensagem: erro.mensage 
