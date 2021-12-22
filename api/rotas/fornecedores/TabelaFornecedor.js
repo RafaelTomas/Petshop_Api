@@ -3,7 +3,7 @@ const NaoEncontrado =require('../../erros/NaoEncontrado')
 
 module.exports = {
     listar(){
-        return modelo.findAll()
+        return modelo.findAll({ raw : true})
     },
 
     inserir(fornecedor){

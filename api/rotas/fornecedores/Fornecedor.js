@@ -1,5 +1,7 @@
 const { removeAllListeners } = require('nodemon')
 const TabelaFornecedor = require('./TabelaFornecedor')
+const CampoInvalido = require('../../erros/CampoInvalido')
+const DadosNaoFornecidos = require('../../erros/DadosNaoFornecidos')
 
 class Fornecedor {
     constructor({id,empresa,email,categoria,dataCriacao,dataAtualizacao, versao}) {
@@ -48,7 +50,7 @@ class Fornecedor {
             const valor = this[campo]
 
             if (typeof valor == 'string' && valor.length > 0){
-                throw new Error('Não foram fornecido dados para atualizar!')
+                throw new DadosNaoFornecidos()
             }
         }) 
             await TabelaFornecedor.atualizar(this.id, dadosParaAtualizar)
@@ -65,7 +67,7 @@ class Fornecedor {
             const valor= this[campo]
 
             if(typeof valor !== 'string'  || valor.length === 0 ){
-                throw new Error(`o campo '${campo}' esta inválido`)
+                throw new CampoInvalido(campo)
             }
         })
     }
