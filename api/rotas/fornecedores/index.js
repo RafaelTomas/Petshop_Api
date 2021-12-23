@@ -4,7 +4,7 @@ const Fornecedor = require('./Fornecedor')
 const SerializadorFornecedor = require('../../Serializador').SerializadorFornecedor
 
 
-roteador.get('/', async (res) => 
+roteador.get('/', async (req,res) => 
 {
     const resultados = await TabelaFornecedor.listar()
     res.status(200)

@@ -57,4 +57,4 @@ app.use((erro, req, res, next) => {
     )
 })
 
-app.listen(config.get('api.porta'), () => console.log("Abestando Funciona!!") )
+app.listen(config.get('api.porta'), () => console.log(" Funciona!!") )
