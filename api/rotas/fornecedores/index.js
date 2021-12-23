@@ -4,7 +4,7 @@ const Fornecedor = require('./Fornecedor')
 const SerializadorFornecedor = require('../../Serializador').SerializadorFornecedor
 
 
-roteador.get('/', async (req,res) => 
+roteador.get('/', async (res) => 
 {
     const resultados = await TabelaFornecedor.listar()
     res.status(200)
@@ -44,7 +44,7 @@ roteador.get('/:idFornecedor', async (req, res, next) => {
         res.status(200)
         const serializador = new SerializadorFornecedor(
             res.getHeader('Content-Type'),
-            ['email','daraCriacao', 'dataAtualizacao', 'vesao']
+            ['email','daraCriacao', 'dataAtualizacao', 'versao']
         )
         res.send(
             serializador.serializar(fornecedor)

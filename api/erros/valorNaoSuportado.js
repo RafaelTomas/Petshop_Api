@@ -1,9 +1,9 @@
-class valorNaoSuportado extends Error {
+class ValorNaoSuportado extends Error {
     constructor (contentType) {
         super(`O tipo de conteúdo ${contentType} não é suportado`)
-        this.name = 'valorNaoSuportado'
-        this.idErri = 3
+        this.name = 'ValorNaoSuportado'
+        this.idErro = 3
     }
 }
 
-module.exports = valorNaoSuportado
+module.exports = ValorNaoSuportado
