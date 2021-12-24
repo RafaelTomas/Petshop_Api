@@ -13,7 +13,7 @@ const app = express()
 app.use(bodyparser.json())
 
 app.use((req, res, next) => {
-    const formatoRequisitado = req.header('Accept')
+    let formatoRequisitado = req.header('Accept')
 
     if(formatoRequisitado === '*/*'){
         formatoRequisitado = 'application/json'
@@ -46,9 +46,10 @@ app.use((erro, req, res, next) => {
         status = 406
     }
     const serializador = new SerializadorErro(
-        res.getHeader('ContentType')
+        res.getHeader('Content-Type')
 
     )
+    res.status(status)
     res.send(
         serializador.serializar({
             mensagem: erro.message,
@@ -56,5 +57,5 @@ app.use((erro, req, res, next) => {
         })
     )
 })
-
+//*/
 app.listen(config.get('api.porta'), () => console.log(" Funciona!!") )

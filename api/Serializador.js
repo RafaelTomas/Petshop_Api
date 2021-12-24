@@ -1,7 +1,6 @@
 const ValorNaoSuportado = require('./erros/ValorNaoSuportado')
 const jsontoxml = require('jsontoxml')
 
-
 class Serializador{
     json (dados) {
         return JSON.stringify(dados)
