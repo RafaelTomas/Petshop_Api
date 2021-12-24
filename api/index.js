@@ -32,6 +32,9 @@ app.use((req, res, next) => {
 const roteador = require('./rotas/fornecedores')
 app.use('/api/fornecedores', roteador)
 
+const roteadorV2 = require('./rotas/fornecedores/rotas.v2')
+app.use('/api/v2/fornecedores',roteadorV2)
+
 app.use((erro, req, res, next) => {
     let status = 500
     
@@ -58,4 +61,4 @@ app.use((erro, req, res, next) => {
     )
 })
 //*/
-app.listen(config.get('api.porta'), () => console.log(" Funciona!!") )
+app.listen(config.get('api.porta'), () => console.log("Api Petshop") )

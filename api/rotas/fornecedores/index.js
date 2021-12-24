@@ -9,7 +9,8 @@ roteador.get('/', async (req,res) =>
     const resultados = await TabelaFornecedor.listar()
     res.status(200)
     const serializador = new SerializadorFornecedor(
-        res.getHeader('Content-Type')
+        res.getHeader('Content-Type'),
+        ['empresa']
     )
     res.send(
         serializador.serializar(resultados)
@@ -25,7 +26,8 @@ roteador.post('/', async (req, res, next) => {
         await fornecedor.criar()
         res.status(201)
         const serializador = new SerializadorFornecedor(
-            res.getHeader('Content-Type')
+            res.getHeader('Content-Type'),
+            ['empresa']
         )
         res.send(
             serializador.serializar(fornecedor)
@@ -44,7 +46,7 @@ roteador.get('/:idFornecedor', async (req, res, next) => {
         res.status(200)
         const serializador = new SerializadorFornecedor(
             res.getHeader('Content-Type'),
-            ['email','daraCriacao', 'dataAtualizacao', 'versao']
+            ['email','empresa','daraCriacao', 'dataAtualizacao', 'versao']
         )
         res.send(
             serializador.serializar(fornecedor)
@@ -68,8 +70,7 @@ roteador.put('/:idFornecedor', async (req, res, next) => {
  }
 })
 
-roteador.delete('/:idFornecedor', async (req, res, next) => {
-   
+roteador.delete('/:idFornecedor', async (req, res, next) => {   
     try{
         const id = req.params.idFornecedor
         const fornecedor = new Fornecedor({ id: id})
@@ -84,6 +85,20 @@ roteador.delete('/:idFornecedor', async (req, res, next) => {
 
 const roteadorProdutos = require('./produtos')
 
-roteador.use('/:idFornecedor/produtos', roteadorProdutos)
+const verificarFornecedor = async (req, res, next) => {
+    try{
+        const id = req.params.idFornecedor
+        const fornecedor = new Fornecedor({id: id})
+        await fornecedor.carregar()
+        req.fornecedor = fornecedor
+        next()
+    }catch (erro){
+        next(erro)
+    }
+}
+
+
+
+roteador.use('/:idFornecedor/produtos', verificarFornecedor, roteadorProdutos)
 
 module.exports = roteador
